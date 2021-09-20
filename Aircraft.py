@@ -38,7 +38,7 @@ class Aircraft:
                 else:
                     self.tsmsg1 = self.tsmsg0
                     self.tsmsg0 = (ts, msg)
-                    newpos = self.__calc_position()
+                    newpos = self.__calc_position(refpos)
                     if newpos is not None and newpos.distance_from(refpos) <= 463000: # 250 nm
                         self.position = newpos
                         return self.position
@@ -47,14 +47,14 @@ class Aircraft:
                         self.position = None
         return None
 
-    def __calc_position(self):
+    def __calc_position(self, refpos):
         if self.tsmsg0[1].oe_flag() == 0: # even
             even = self.tsmsg0
             odd = self.tsmsg1
         else:
             even = self.tsmsg1
             odd = self.tsmsg0
-        pos = pyModeS.adsb.position(even[1].hex, odd[1].hex, even[0], odd[0])
+        pos = pyModeS.adsb.position(even[1].hex, odd[1].hex, even[0], odd[0], refpos.lat, refpos.lon)
         if pos is None:
             # msgs are in different latitude zones
             #see https://mode-s.org/api/_modules/pyModeS/decoder/bds/bds05.html#airborne_position

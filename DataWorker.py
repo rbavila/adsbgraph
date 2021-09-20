@@ -36,7 +36,7 @@ class DataWorker(Thread):
             else:
                 self.stats["messageCount"]["modeS"]["other"] += 1
 
-            if type != BEAST.TYPE_MODEAC:
+            if type != BEAST.TYPE_MODEAC and m.icao is not None:
                 # dump.write("{}\t{}\n".format(ts, m.hex))
                 # dump.flush()
                 if m.icao not in self.aircrafts:

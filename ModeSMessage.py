@@ -4,11 +4,15 @@ class ModeSMessage:
     def __init__(self, raw):
         self.raw = raw
         self.hex = raw.hex()
+        self.df = None
+        self.icao = None
         self.__decode()
 
     def __decode(self):
         self.df = pyModeS.df(self.hex)
-        self.icao = pyModeS.icao(self.hex).upper()
+        temp = pyModeS.icao(self.hex)
+        if temp is not None:
+            self.icao = temp.upper()
         if self.is_adsb():
             self.tc = pyModeS.adsb.typecode(self.hex)
             if self.has_callsign():

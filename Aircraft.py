@@ -54,7 +54,11 @@ class Aircraft:
         else:
             even = self.tsmsg1
             odd = self.tsmsg0
-        pos = pyModeS.adsb.position(even[1].hex, odd[1].hex, even[0], odd[0], refpos.lat, refpos.lon)
+        try:
+            pos = pyModeS.adsb.position(even[1].hex, odd[1].hex, even[0], odd[0], refpos.lat, refpos.lon)
+        except:
+            print("Erro determinando a posição, even = {}, odd = {}".format(even[1].hex, odd[1].hex))
+            return None
         if pos is None:
             # msgs are in different latitude zones
             #see https://mode-s.org/api/_modules/pyModeS/decoder/bds/bds05.html#airborne_position

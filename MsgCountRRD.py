@@ -24,7 +24,7 @@ class MsgCountRRD(RRD):
         ])
 
         self.opts.update({
-            "title": "Mensagens Mode S recebidas",
+            "title": "Mensagens recebidas",
             "vertical-label": "msgs/s"
         })
 
